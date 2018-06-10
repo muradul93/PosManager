@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <link rel="shortcut icon" href="http://integrateddairies.com/wp-content/themes/integrated-diaries/images/favicon.ico">
+    <title>IDL</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+
+    <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.css}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/input-style.css}">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <script th:src="@{/webjars/jquery/3.1.0/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/jquery-ui-themes/1.11.4/excite-bike/jquery-ui.css}">
+    <script th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+    <script th:src="@{/code.jquery.com/jquery-1.11.2.min.js}"></script>
+    <!-- JS file -->
+
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link rel="stylesheet" th:href="@{/vendors/awesomplete/awesomplete.css}" />
+    <script th:src="@{/vendors/awesomplete/awesomplete.js}"></script>
+
+
+
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+
+        <datalist id="mylist"></datalist>
+        <!-- top navigation -->
+        <div th:replace="headerFragment :: header"></div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="top-pagination">
+                        <div class="page-title">
+                            <div class="title_left">
+
+                                <!--<h4>[[${#httpServletRequest}]]'s Details</h4>-->
+                                <h4 th:text="${companyDetails.getCompanyName()}+' Details'"></h4>
+
+                                <!--<h4>Inventory Details</h4>-->
+                            </div>
+                            <div class="title_right">
+                                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search text-right">
+                                    <!-- <div class="input-group">
+                                      <input type="text" class="form-control" placeholder="Search for...">
+                                      <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button">Go!</button>
+                                      </span>
+
+                                    </div> -->
+                                    <a th:href="@{'/company/companyList/'}" class="btn btn-primary">List Of Companies</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="requisitionform">
+                        <form action="#"  th:object="${companyDetails}" >
+                            <table class="table req_top">
+                                <!--<tr th:each="sales : ${allSales}">-->
+                                <tbody>
+                                <tr>
+                                    <td> Company Name <span style="color: red">*</span></td>
+                                    <td ><input type="text" class="form-control" th:value="${companyDetails.getCompanyName()}" readonly> </td>
+                                    <td> Number Of Branches<span style="color: red">*</span></td>
+                                    <td ><input type="text" class="form-control" th:value="${companyDetails.getBranches().size()}" readonly>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td> Expiration Date<span style="color: red">*</span></td>
+
+                                    <td><input readonly type="text" class="form-control"  th:value="${companyDetails.expireDate != null} ? ${#temporals.format(companyDetails.expireDate, 'dd MMM yyyy')} : 'NO DATE'" >
+                                        <span style="color: red;display: none;" id="BachNoError"  />
+                                    </td>
+                                    <td>Code </td>
+                                    <!--th:selected="${product.id == null} ? false : ${mou.id == product.mou.id}"-->
+
+
+                                    <!--<td><a-->
+                                           <!--th:if="${sales.isSaleComplete()==true}"  th:text="@{${'/CustomerType/delete/' + customer_type.id}}">Delete</a>-->
+                                    <!--</td>-->
+
+                                    <td><input type="text" readonly class="form-control" th:value="${ companyDetails.getCode()}"></td>
+
+                                </tr>
+
+                                </tbody>
+                            </table>
+
+                            <div class="panel panel-default">
+                                <div class="panel-body">Company Branch List</div>
+                            </div>
+                            <table class="table req_bottom" id="wareHouseDetais">
+                                <thead>
+                                <tr>
+                                    <th width="20%" class="text-center">Branch Name</th>
+                                    <th width="15%" class="text-center">Branch Code</th>
+                                    <th width="15%" class="text-center">Expire Date</th>
+
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tr th:each="details, stat : ${companyDetails.getBranches()}" th:id="'rowCount'+${stat.index}">
+                                    <td><input readonly type="text" th:value="${details.getBranchName()}" class="cl"/></td>
+                                    <!--<td><input readonly style="text-align: center" type="text" th:value="${details.batch.manufactureDate != null} ? ${#temporals.format(details.batch.manufactureDate, 'dd MMM yyyy')} : 'NO DATE'" class="cl"/></td>-->
+                                    <!--<td><input readonly style="text-align: center" type="text" th:value="${details.batch.expirationDate != null} ? ${#temporals.format(details.batch.expirationDate, 'dd MMM yyyy')} : 'NO DATE'" class="cl"/></td>-->
+                                    <td><input readonly type="text" th:value="${details.getBranchCode()}" class="cl"/></td>
+                                    <td><input readonly type="text" th:value="${details.expireDate != null} ? ${#temporals.format(details.expireDate, 'dd MMM yyyy')} : 'NO DATE'" class="cl" style="text-align: right"/></td>
+
+
+                                </tr>
+                                </tbody>
+                            </table>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+            <div class="pull-right" style="color: #32ff07">
+                FMCG <a href="https://colorlib.com">Dream71.com</a>
+            </div>
+            <div class="clearfix"></div>
+        </footer>
+
+
+        <!-- the div that represents the modal dialog -->
+
+
+        <script type="application/javascript">
+            //    addNewRow();
+        </script>
+
+
+        <!-- /footer content -->
+    </div>
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+<!-- Bootstrap -->
+<script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- FastClick -->
+<!--<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>-->
+<!--&lt;!&ndash; NProgress &ndash;&gt;-->
+<!--<script th:src="@{/vendors/nprogress/nprogress.js}"></script>-->
+
+<!--<script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>-->
+<!--<script th:src="@{/vendors/raphael/raphael.min.js}"></script>-->
+<!--<script th:src="@{/vendors/morris.js/morris.min.js}"></script>-->
+
+<!-- Custom Theme Scripts -->
+<script th:src="@{/build/js/custom.js}"></script>
+<script th:src="@{/js/WarehouseInventory/warehouseInventory_form_validation.js}"></script>
+<!-- Script here -->
+
+
+
+
+</body >
+</html >

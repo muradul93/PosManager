@@ -1,0 +1,486 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sd="http://www.thymeleaf.org/spring-data">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="context-path" th:content="@{/}"/>
+      <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+      <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+      <meta name="image-path" th:content="@{/images/notification/paper_plane.png}"/>
+    <title>Location List </title>
+    
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+
+     <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.css}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css"th:href="@{/css/input-style.css}">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+      <link th:href="@{/css/jquery.notify.css}" type="text/css" rel="stylesheet" />
+
+      <script th:src="@{/webjars/jquery/3.1.0/jquery.min.js}"></script>
+      <link rel="stylesheet" th:href="@{/webjars/jquery-ui-themes/1.11.4/excite-bike/jquery-ui.css}">
+      <script th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+      <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+      <script type="text/javascript" th:src="@{/vendors/js/jquery.notify.min.js}"></script>
+
+      <script>
+          jQuery(document).ready(function ($) {
+
+              $( ".del" ).on( "click", function(e) {
+                  var link = this;
+                  e.preventDefault();
+
+                  $( "#dialog-confirm" ).dialog({
+                      resizable: false,
+                      height: "auto",
+                      width: 400,
+                      modal: true,
+                      buttons: {
+                          "Delete Location": function() {
+                              window.location = link.href;
+                          },
+                          Cancel: function() {
+                              $( this ).dialog( "close" );
+                          }
+                      }
+                  });
+              });
+          });
+      </script>
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+
+          <script type="text/javascript" th:if="${save != null}">
+              notify({
+                  type: "success", //alert | success | error | warning | info
+                  title: "Saved",
+                  message: '[[${save}]]',
+                  position: {
+                      x: "right", //right | left | center
+                      y: "bottom" //top | bottom | center
+                  },
+                  icon: '<img id="im"/>', //<i>
+                  size: "normal", //normal | full | small
+                  overlay: true, //true | false
+                  closeBtn: true, //true | false
+                  overflowHide: false, //true | false
+                  spacing: 20, //number px
+                  theme: "dark-theme", //default | dark-theme
+                  autoHide: true, //true | false
+                  delay: 1500, //number ms
+                  onShow: null, //function
+                  onClick: null, //function
+                  onHide: null, //function
+                  template: '<div class="notify"><div class="notify-text"></div></div>'
+              });
+              var BASE_IMAGE_PATH = $('meta[name=image-path]').attr("content");
+              document.getElementById('im').src=BASE_IMAGE_PATH;
+          </script>
+
+          <script type="text/javascript" th:if="${edit != null}">
+              notify({
+                  type: "success", //alert | success | error | warning | info
+                  title: "Updated",
+                  message: '[[${edit}]]',
+                  position: {
+                      x: "right", //right | left | center
+                      y: "bottom" //top | bottom | center
+                  },
+                  icon: '<img id="im"/>', //<i>
+                  size: "normal", //normal | full | small
+                  overlay: true, //true | false
+                  closeBtn: true, //true | false
+                  overflowHide: false, //true | false
+                  spacing: 20, //number px
+                  theme: "dark-theme", //default | dark-theme
+                  autoHide: true, //true | false
+                  delay: 1500, //number ms
+                  onShow: null, //function
+                  onClick: null, //function
+                  onHide: null, //function
+                  template: '<div class="notify"><div class="notify-text"></div></div>'
+              });
+              var BASE_IMAGE_PATH = $('meta[name=image-path]').attr("content");
+              document.getElementById('im').src=BASE_IMAGE_PATH;
+          </script>
+
+          <script type="text/javascript" th:if="${delete != null}">
+              notify({
+                  type: "error", //alert | success | error | warning | info
+                  title: "Deleted",
+                  message: '[[${delete}]]',
+                  position: {
+                      x: "right", //right | left | center
+                      y: "bottom" //top | bottom | center
+                  },
+                  icon: '<img id="im"/>', //<i>
+                  size: "normal", //normal | full | small
+                  overlay: true, //true | false
+                  closeBtn: true, //true | false
+                  overflowHide: false, //true | false
+                  spacing: 20, //number px
+                  theme: "dark-theme", //default | dark-theme
+                  autoHide: true, //true | false
+                  delay: 1500, //number ms
+                  onShow: null, //function
+                  onClick: null, //function
+                  onHide: null, //function
+                  template: '<div class="notify"><div class="notify-text"></div></div>'
+              });
+              var BASE_IMAGE_PATH = $('meta[name=image-path]').attr("content");
+              document.getElementById('im').src=BASE_IMAGE_PATH;
+          </script>
+
+          <div style="display:none;" id="dialog-confirm" title="Delete this Location?">
+              <p>
+                  <span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>
+                  This Location will be permanently deleted and cannot be recovered. Are you sure?
+              </p>
+          </div>
+        <!-- top navigation -->
+          <div th:replace="headerFragment :: header"></div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+         
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="top-pagination">
+                      <div class="page-title">
+                        <div class="title_left">
+                          <h4>List of Location</h4>
+                        </div>
+                          <a  th:href="@{/location/tree}" style="float: right">
+                              <button type="button" id="add" class="btn btn-primary">Location Tree</button>
+                          </a>
+                          <a  th:href="@{/location/show}" style="float: right">
+                              <button type="button" class="btn btn-primary">Add New Location</button>
+                          </a>
+
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                    <div class="grid-heading">
+                      <nav class="navbar navbar-default">
+                        <div class="container-fluid">
+                          <div class="navbar-header">
+
+                                  <!-- Nav tabs -->
+                                  <ul class="nav nav-tabs" role="tablist" style="float: left">
+                                    <li role="presentation" class="active">
+                                      <a href="#home" aria-controls="home" role="tab" data-toggle="tab"> 
+                                        <i class="fa fa-th-large" aria-hidden="true"></i>
+                                      </a>
+                                    </li>
+                                    <li role="presentation">
+                                      <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                       <i class="fa fa-th-list" aria-hidden="true"></i>
+                                      </a>
+                                    </li>
+                                    <li role="presentation_new" class="presentation_new">
+
+                                    </li>
+                                  </ul>
+                                  <!-- Nav tabs -->
+
+                                  <form th:action="@{/location/search}" method="post">
+                                      <div class="title_right">
+                                          <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search" style="float: right">
+                                              <div class="input-group">
+                                                  <input name="ser" type="text" class="form-control" placeholder="Search for...">
+                                                  <span class="input-group-btn">
+                                        <button class="btn btn-default" type="submit">Go!</button>
+                                      </span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </form>
+                          </div>
+                        </div>
+                      </nav>
+                    </div>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="grid-content">
+                            <div>
+
+                                  <!-- Tab panes -->
+                                  <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade in active" id="home">
+                                      <div class="row">
+                                          <div class="col-md-12">
+                                              <div class="panel panel-default">
+                                                  <div class="panel-body">
+                                                      List of Location
+                                                  </div>
+                                              </div>
+                                              <table class="table table-bordered"> 
+                                                  <thead> 
+                                                      <tr> 
+                                                          <th><a class="sorted" sd:pagination-sort="name" >Location Name </a></th>
+                                                          <th><a class="sorted" sd:pagination-sort="code" >Code</a></th>
+                                                          <th><a class="sorted" sd:pagination-sort="location.name" >Parent Name</a></th>
+                                                        <th>Edit</th>
+                                                        <th>Delete</th>
+                                                      </tr>
+                                                  </thead> 
+                                                  <tbody>
+                                                  <tr th:each="loc : ${allLocation}">
+                                                      <td th:text="${loc.name}"></td>
+                                                      <td th:text="${loc.code}"></td>
+                                                      <td th:text="${loc.getLocation() != null} ? ${loc.getLocation().getName()} : 'ROOT'"></td>
+                                                      <td><a  th:href="@{${'/location/edit/' + loc.locationId}}">Edit</a></td>
+                                                      <td><a class="del" th:href="@{${'/location/delete/' + loc.locationId}}">Delete</a></td>
+                                                  </tr>
+                                                  </tbody> 
+                                              </table>
+                                          </div>
+                                      </div>
+
+                                    </div>
+                                      <div role="tabpanel" class="tab-pane fade" id="profile">
+                                          <div class="row">
+                                              <div th:each="location : ${allLocation}" class="col-md-15">
+                                                  <div class="single_profile">
+                                                      <div class="thumbnail">
+                                                          <div class="caption">
+                                                              <!--<div class="profile-image">
+                                                                <img src="images/img.jpg" alt="...">
+                                                              </div>-->
+                                                              <h4 th:text="'Location Name: '+${location.name}"></h4>
+                                                              <p th:text="'Code: '+${location.code}"></p>
+                                                              <p th:text="${location.getLocation() != null} ? 'Parent Name: '+${location.getLocation().getName()} : 'Parent Name: ROOT'"></p>
+                                                              <!--<p th:text="${@locationController.getParetName(location.locationId)}"></p>-->
+                                                              <p><!--<a th:href="${'/location/edit/' + location.locationId}">Change Parent</a>--></p>
+                                                              <p><a class="del" th:href="@{${'/location/delete/' + location.locationId}}">Delete</a></p>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+
+                                          </div>
+                                      </div>
+                                  </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div sd:pagination-summary="">info</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <nav class="pull-right">
+                                            <ul class="pagination" sd:pagination="full">
+                                                <!-- Pagination created by SpringDataDialect, this content is just for mockup -->
+                                                <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                                                <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              
+
+           
+
+         
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+
+        
+         
+               
+          <!-- the div that represents the modal dialog -->
+            <div class="modal fade" id="contact_dialog1" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Enter your Information</h4>
+                      </div>
+                      <div class="modal-body">
+                            <form>
+                              <div class="form-group">
+                                <label for="email">Name:</label>
+                                <input type="text" class="form-control" id="email">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Designation:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Organization:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                  <label for="comment">Adress:</label>
+                                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Email:</label>
+                                <input type="email" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Phone:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              
+                              <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" id="submitForm" class="btn btn-default">Send</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal fade" id="contact_dialog2" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Enter your Information</h4>
+                      </div>
+                      <div class="modal-body">
+                            <form>
+                              <div class="form-group">
+                                <label for="email">Name:</label>
+                                <input type="text" class="form-control" id="email">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Designation:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Organization:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                  <label for="comment">Adress:</label>
+                                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Email:</label>
+                                <input type="email" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Phone:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              
+                              <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" id="submitForm" class="btn btn-default">Send</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <div class="modal fade" id="contact_dialog3" role="dialog">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Enter your Information</h4>
+                      </div>
+                      <div class="modal-body">
+                            <form>
+                              <div class="form-group">
+                                <label for="email">Name:</label>
+                                <input type="text" class="form-control" id="email">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Designation:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Organization:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                  <label for="comment">Adress:</label>
+                                  <textarea class="form-control" rows="3" id="comment"></textarea>
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Email:</label>
+                                <input type="email" class="form-control" id="pwd">
+                              </div>
+                              <div class="form-group">
+                                <label for="pwd">Phone:</label>
+                                <input type="text" class="form-control" id="pwd">
+                              </div>
+                              
+                              <button type="submit" class="btn btn-default">Submit</button>
+                            </form>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                          <button type="button" id="submitForm" class="btn btn-default">Send</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        
+       
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- FastClick -->
+    <script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+    <!-- NProgress -->
+    <script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+
+    <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/vendors/raphael/raphael.min.js}"></script>
+    <script th:src="@{/vendors/morris.js/morris.min.js}"></script>
+    
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/build/js/custom.js}"></script>
+
+    <!-- Script here -->
+   
+
+
+  </body>
+</html>

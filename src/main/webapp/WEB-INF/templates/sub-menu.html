@@ -1,0 +1,403 @@
+
+<!DOCTYPE html>
+<html  xmlns:th="http://www.thymeleaf.org" >
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gentelella Alela! | </title>
+    
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+
+     <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.css}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/input-style.css}">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+ 
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div class="col-md-3 left_col">
+          <div class="left_col scroll-view">
+            <div class="navbar nav_title" style="border: 0;">
+              <a href="index.html" class="site_title"><span>FMCG</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+           
+            <!-- /menu profile quick info -->
+
+            <br />
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+              <div class="menu_section">
+               
+                <ul class="nav side-menu">
+                  <li><a><i class="fa fa-home"></i> Home </a></li>
+                  <li><a><i class="fa fa-edit"></i> Forms</a></li>
+                  <li><a><i class="fa fa-desktop"></i> UI Elements </a></li>
+                  <li><a><i class="fa fa-table"></i> Tables </a></li>
+                  <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation </a></li>
+                  <li><a><i class="fa fa-clone"></i>Layouts </a></li>
+                   <li><a><i class="fa fa-bug"></i> Additional Pages</a></li>
+                   <li><a><i class="fa fa-windows"></i> Extras </a></li>
+                  <li><a><i class="fa fa-sitemap"></i> Multilevel Menu </a></li>
+                </ul>
+              </div>
+              
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+          </div>
+        </div>
+
+        <!-- top navigation -->
+        <div class="top_nav">
+          <div class="nav_menu">
+            <nav>
+              <div class="nav toggle">
+                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+              </div>
+              <ul class="fmcg-left-menu">
+                <li><a href="">Home</a></li>
+                <li><a href="">Sales</a></li>
+                <li><a href="">Inventory</a></li>
+                <li><a href="">Account</a></li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li class="">
+                  <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img src="images/img.jpg" alt="">John Doe
+                    <span class=" fa fa-angle-down"></span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-usermenu pull-right">
+                    <li><a href="javascript:;"> Profile</a></li>
+                    <li>
+                      <a href="javascript:;">
+                        <span class="badge bg-red pull-right">50%</span>
+                        <span>Settings</span>
+                      </a>
+                    </li>
+                    <li><a href="javascript:;">Help</a></li>
+                    <li>
+                        <!--<a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>-->
+                        <form th:action="@{/logout}" method="post">
+                            <input type="submit" value="Sign Out"/>
+                        </form>
+                    </li>
+                  </ul>
+                </li>
+
+                <li role="presentation" class="dropdown">
+                  <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                    <i class="fa fa-envelope-o"></i>
+                    <span class="badge bg-green">6</span>
+                  </a>
+                  <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
+                        <span>
+                          <span>John Smith</span>
+                          <span class="time">3 mins ago</span>
+                        </span>
+                        <span class="message">
+                          Film festivals used to be do-or-die moments for movie makers. They were where...
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <div class="text-center">
+                        <a>
+                          <strong>See All Alerts</strong>
+                          <i class="fa fa-angle-right"></i>
+                        </a>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+         
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="top-pagination">
+                      <div class="page-title">
+                        <div class="title_left">
+                          <h4>Add New HR</h4>
+                        </div>
+                        <div class="title_right">
+                          <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                            <div class="input-group">
+                              <input type="text" class="form-control" placeholder="Search for...">
+                              <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+              
+              <div class="row">
+                  <div class="col-md-12">
+                      <div class="inner_menu">  
+                          <ul class="subpage_menu">
+                              <li>
+                                 <a href=""> 
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    Employee List
+                                    <span class="sub_title">
+                                    Lorem Ipsum is simply dummy text of the printing
+                                    </span> 
+                                  </a>
+                              </li>
+
+
+                              <li>
+                                <a href="#"> 
+                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                    Set Target
+                                    <span class="sub_title">Lorem Ipsum is simply dummy text of the printing</span>
+                                </a>
+                                <ul class="children_menu">
+                                    <li>
+                                      <a href="">
+                                          <i class="fa fa-angle-double-right"></i>
+                                          Product wise target
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a href="">
+                                          <i class="fa fa-angle-double-right"></i>
+                                          Product wise target
+                                      </a>
+                                    </li>
+                                </ul>
+                              </li>
+                              
+                              <li>
+                                 <a href=""> 
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    Employee List
+                                    <span class="sub_title">
+                                    Lorem Ipsum is simply dummy text of the printing
+                                    </span> 
+                                  </a>
+                              </li>
+
+                              <li>
+                                 <a href=""> 
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    Employee List
+                                    <span class="sub_title">
+                                    Lorem Ipsum is simply dummy text of the printing
+                                    </span> 
+                                  </a>
+                              </li>
+
+                              <li>
+                                 <a href=""> 
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    Employee List
+                                    <span class="sub_title">
+                                    Lorem Ipsum is simply dummy text of the printing
+                                    </span> 
+                                  </a>
+                              </li>
+
+                              <li>
+                                 <a href=""> 
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    Employee List
+                                    <span class="sub_title">
+                                    Lorem Ipsum is simply dummy text of the printing
+                                    </span> 
+                                  </a>
+                              </li>  
+                          </ul>
+                      </div>   
+                  </div>
+              </div>
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+
+        
+         
+               
+         
+        
+       
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- FastClick -->
+    <script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+    <!-- NProgress -->
+    <script th:src="@{vendors/nprogress/nprogress.js}"></script>
+
+    <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/vendors/raphael/raphael.min.js}"></script>
+    <script th:src="@{/vendors/morris.js/morris.min.js}"></script>
+    
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/build/js/custom.js}"></script>
+
+    <!-- Script here -->
+   
+    <script>
+    // JavaScript for label effects only
+      $(window).load(function(){
+        $(".col-3 input").val("");
+        
+        $(".input-effect input").focusout(function(){
+          if($(this).val() != ""){
+            $(this).addClass("has-content");
+          }else{
+            $(this).removeClass("has-content");
+          }
+        })
+      });
+
+
+
+      //custom input file
+      $(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+
+      // modal
+/* must apply only after HTML has loaded */
+$(document).ready(function () {
+    $("#contact_form").on("submit", function(e) {
+        var postData = $(this).serializeArray();
+        var formURL = $(this).attr("action");
+        $.ajax({
+            url: formURL,
+            type: "POST",
+            data: postData,
+            success: function(data, textStatus, jqXHR) {
+                $('#contact_dialog .modal-header .modal-title').html("Result");
+                $('#contact_dialog .modal-body').html(data);
+                $("#submitForm").remove();
+            },
+            error: function(jqXHR, status, error) {
+                console.log(status + ": " + error);
+            }
+        });
+        e.preventDefault();
+    });
+     
+    $("#submitForm").on('click', function() {
+        $("#contact_form").submit();
+    });
+});
+</script>
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet"  type="text/css" th:href="@{/css/w3.css}" />
+    <title>Title</title>
+
+    <script src="webjars/jquery/3.1.0/jquery.js"></script>
+</head>
+<body>
+
+<button id="bt1" class="w3-btn w3-white w3-border w3-border-red w3-round-xlarge">All Role</button>
+<button id="bt2" class="w3-btn w3-white w3-border w3-border-red w3-round-xlarge">Add Role</button>
+<p/>
+<div id="content"></div>
+
+<script>
+
+    $("#bt1").on("click", function () {
+        $("#content").load("/role/allRole");
+    });
+
+    $("#bt2").on("click", function () {
+        $("#content").load("/role/show");
+    });
+
+</script>
+</body>
+</html>

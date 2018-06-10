@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="context-path" th:content="@{/}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/w3.css}"/>
+</head>
+<body>
+<div class="w3-container">
+    <p th:text="${deleteMessage}" th:unless="${deleteMessage == null}">Test</p>
+    <div class="w3-container w3-teal">
+        <h2 th:text="#{location.title.name}">Location</h2>
+
+
+    </div>
+
+<table class="w3-table w3-striped">
+    <thead>
+    <tr>
+        <th class="w3-label w3-text-teal">Location Name</th>
+        <th class="w3-label w3-text-teal">Code</th>
+        <th>Parent Name</th>
+        <th>Change Parent</th>
+        <th>Delete Location</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="location : ${allLocation}">
+        <td th:text="${location.name}"></td>
+        <td th:text="${location.code}"></td>
+        <td th:text="${@locationController.getParetName(location.locationId)}"></td>
+        <td><a th:href="${'/location/edit/' + location.locationId}">Change Parent</a></td>
+        <td><a th:href="${'/location/delete/' + location.locationId}">Delete</a></td>
+        <!--<td th:text="${location.code}"></td>-->
+        <!--<td><a th:href="${'/role/delete/' + role.roleId}">Delete</a></td>-->
+    </tr>
+    </tbody>
+</table>
+<a class="w3-btn" th:href="@{/location/show}">Add Location</a>
+
+</div>
+
+</body>
+</html>

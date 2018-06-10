@@ -1,0 +1,316 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+      <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+      <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="context-path" th:content="@{/}"/>
+      <script th:src="@{/webjars/jquery/3.1.0/jquery.min.js}"></script>
+      <link rel="stylesheet" th:href="@{/webjars/jquery-ui-themes/1.11.4/excite-bike/jquery-ui.css}">
+      <script th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+
+    <title>Add User </title>
+    
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+
+     <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.css}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/input-style.css}">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+      <script type="text/javascript" th:src="@{/js/dropdown/jquery-1.3.2.js}"></script>
+      <script type="text/javascript" th:src="@{/js/dropdown/jquery.livequery.js}"></script>
+      <script type="text/javascript" th:src="@{/js/user/user_drop.js}"></script>
+      <script>
+//          $.noConflict();
+          jQuery(document).ready(function ($) {
+
+              $( "#sub" ).click(function(e) {
+                  var actionurl = e.currentTarget.action;
+                  e.preventDefault();
+
+                  var id = $('#userId').val();
+                  if(!!id){
+                      if (validtionEditCheck()) {
+                          $( "#formuser" )[0].submit();
+                      }
+                  }else {
+                      if(validtionCheck()){
+                          $('#formuser')[0].submit();
+                      }
+                  }
+
+
+              });
+          });
+
+      </script>
+
+
+      <link rel="stylesheet" type="text/css" th:href="@{/css/custom_switch.css}">
+
+
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+
+
+        <!-- top navigation -->
+          <div th:replace="headerFragment :: header"></div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="top-pagination">
+                      <div class="page-title">
+                        <div class="title_left">
+                          <h4>Add User</h4>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+
+
+
+            <!--<form action="#" th:action="@{/user/show}" onsubmit="return validtionCheck();" th:object="${myUser}" method="post" >-->
+            <form id="formuser" action="#" th:action="@{/user/show}" th:object="${myUser}" method="post" >
+                <input id="userId" type="hidden" th:field="*{id}" />
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" id="user_name" onchange="userNameOnChange ();" th:field="*{email}">
+                            <label style="">User ID <span style="color: red">*</span></label>
+                            <span class="focus-border"></span>
+                            <span style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</span>
+                            <span id="user_name_error" style="color: red;display: none" ></span>
+                            <span th:if="${une != null}" style="color: red;">User Name Already Existed</span>
+                        </div>
+                    </div>
+
+                    <div th:if="*{id} == null" class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" id="pasword" onchange="passwordOnChange();" th:field="*{passwordHash}">
+                            <label style="">Password  <span style="color: red">*</span></label>
+                            <span class="focus-border"></span>
+                            <span style="color: red;" th:if="${#fields.hasErrors('passwordHash')}" th:errors="*{passwordHash}"/>
+                            <span id="pasword_error" style="color: red;display: none" ></span>
+                        </div>
+                    </div>
+                    <div th:if="*{id} != null" class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" id="pasword" onchange="passwordEditOnChange();" th:field="*{passwordHash}">
+                            <label style=""> Edit Password  </label>
+                            <span class="focus-border"></span>
+                            <span style="color: red;" th:if="${#fields.hasErrors('passwordHash')}" th:errors="*{passwordHash}"/>
+                            <span id="pasword_error" style="color: red;display: none" ></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" id="re_pasword" onchange="rePasswordOnChange()" th:field="*{rePassword}">
+                            <label style="">Re-Type Password  <span style="color: red">*</span></label>
+                            <span class="focus-border"></span>
+                            <span style="color: red;" th:if="${#fields.hasErrors('rePassword')}" th:errors="*{rePassword}"/>
+                            <span id="re_pasword_error" style="color: red;display: none" ></span>
+                        </div>
+                    </div>
+
+                    <div class="col-md-1 col-sm-1 col-xs-12">
+                     <!--   <div class="control-group">
+                            <label class="control control&#45;&#45;checkbox" style="    margin-top: 29px;">Active
+                                <input type="checkbox" checked="checked" th:field="*{active}"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                        </div>-->
+
+                        <div class="onoffswitch" style="margin-top: 24px;">
+                            <input  type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="active" th:checked="*{active}">
+                            <label class="onoffswitch-label" for="active">
+                                <span class="onoffswitch-inner"></span>
+                                <span class="onoffswitch-switch"></span>
+                            </label>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+                <div class="row" th:if="*{id == null}">
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="control-group">
+                            <label class="control control--radio">Office Employee
+                                <input type="radio" name="role"  checked value="ROLE_FINANCE"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                            <label class="control control--radio">Sales Representative
+                                <input type="radio" name="role"  value="ROLE_SR"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                            <label class="control control--radio">Warehouse Keeper
+                                <input type="radio" name="role"  value="ROLE_WAREHOUSE"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                            <label class="control control--radio">SR Attendance Manager
+                                <input type="radio" name="role"  value="ROLE_ATTENDANCE"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                            <label class="control control--radio">Sales Manager
+                                <input type="radio" name="role"  value="ROLE_SALES"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12" id="empDiv">
+                        <div class="control-group">
+                            <span><label style="">HR Employee Name<span style="color: red">*</span></label></span>
+                            <div class="select">
+                                <select  id="hr_employee_name" onchange="hrEmployeeNameOnChange();" name="hrId">
+                                    <option th:value="0" th:text="NONE"></option>
+                                    <option th:each="type : ${hrEmployeeCBox}"
+                                            th:value="${type.id}"
+                                            th:text="${type.empName}">
+                                    </option>
+                                </select>
+                                <div class="select__arrow"></div>
+                            </div>
+                            <span id="hr_employee_name_error" style="color: red;display: none" ></span>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+
+                <div class="row">
+                   <div class="col-md-4 col-sm-4 col-xs-12">
+                      <button id="sub" type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+              </form>
+
+           
+
+         
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+    <!-- Booth:tstra@{/ -->
+    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- Fasth:tClic@{/ -->
+    <script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+    <!-- NPrth:ogres@{/ -->
+    <script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+                <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/vendors/raphael/raphael.min.js}"></script>
+    <script th:src="@{/vendors/morris.js/morris.min.js}"></script>
+    
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/build/js/custom.js}"></script>
+    <script th:src="@{/js/user/user_form_validation.js}"></script>
+
+    <!-- Script here -->
+   
+    <script>
+    // JavaScript for label effects only
+      $(window).load(function(){
+
+          if($('#userId').val() != ''){
+              $(".input-effect input").addClass("has-content")
+          }else {
+              $(".col-3 input").val("");
+          }
+        
+        $(".input-effect input").focusout(function(){
+          if($(this).val() != ""){
+            $(this).addClass("has-content");
+          }else{
+            $(this).removeClass("has-content");
+          }
+        })
+      });
+
+
+
+      //custom input file
+      $(function() {
+
+  // We can attach the `fileselect` event to all file inputs on the page
+  $(document).on('change', ':file', function() {
+    var input = $(this),
+        numFiles = input.get(0).files ? input.get(0).files.length : 1,
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+  });
+
+  // We can watch for our custom `fileselect` event like this
+  $(document).ready( function() {
+      $(':file').on('fileselect', function(event, numFiles, label) {
+
+          var input = $(this).parents('.input-group').find(':text'),
+              log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+          if( input.length ) {
+              input.val(log);
+          } else {
+              if( log ) alert(log);
+          }
+
+      });
+  });
+  
+});
+
+
+    </script>
+
+
+
+
+  </body>
+</html>

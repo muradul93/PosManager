@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="context-path" th:content="@{/}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/w3.css}"/>
+</head>
+<body>
+<div class="w3-container">
+
+    <div action="#" class="w3-card-4">
+        <div class="w3-container w3-teal">
+            <h2 th:text="#{location.title.name}">Location</h2>
+            <!--<h2>Role Management</h2>-->
+        </div>
+        <form action="#" th:action="@{/location/show}" th:object="${locationForm}" method="post">
+            <input type="text" th:field="*{locationId}"/>
+            <p>
+                <label class="w3-label w3-text-teal"><b>Location Name</b></label>
+                <input class="w3-input w3-border w3-light-grey" type="text" th:field="*{name}"/>
+                <span style="color: red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</span>
+            <p>
+            <p>
+                <label class="w3-label w3-text-teal"><b>Code</b></label>
+                <input class="w3-input w3-border w3-light-grey" type="text" th:field="*{code}"/>
+                <span style="color: red;" th:if="${#fields.hasErrors('code')}" th:errors="*{code}">Code Error</span>
+            <p>
+            <p>
+                <select class="w3-select" th:field="*{parentId}">
+                    <option th:value="0" th:text="NONE"></option>
+                    <option th:each="type : ${locationCBox}"
+                            th:value="${type.locationId}"
+                            th:text="${type.name}">Wireframe
+                    </option>
+                </select>
+            </p>
+            <input class="w3-btn w3-blue-grey" type="submit" value="Submit"/>
+        </form>
+    </div>
+
+
+
+    <a class="w3-btn" th:href="@{/location/allLocation}">Show Location</a>
+</div>
+</body>
+</html>

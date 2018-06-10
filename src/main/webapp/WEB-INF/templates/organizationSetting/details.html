@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta name="image-path" th:content="@{/images/company.png}"/>
+    <meta name="image-path1" th:content="@{/images/notification/paper_plane.png}"/>
+    <meta name="context-path" th:content="@{/}"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+    <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+
+    <link th:href="@{/css/jquery.notify.css}" type="text/css" rel="stylesheet" />
+
+    <script th:src="@{/webjars/jquery/3.1.0/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/jquery-ui-themes/1.11.4/excite-bike/jquery-ui.css}">
+    <script th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+    <script type="text/javascript" th:src="@{/vendors/js/jquery.notify.min.js}"></script>
+
+    <title>Organization Setting Details</title>
+
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+
+    <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.css}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/input-style.css}">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+    <script>
+        var token = $("meta[name='_csrf']").attr("content");
+        var header = $("meta[name='_csrf_header']").attr("content");
+        //$.noConflict();
+        jQuery(document).ready(function ($) {
+
+            var BASE_IMAGE_PATH = $('meta[name=image-path]').attr("content");
+            var FLAG_PATH = $('meta[name=flag-path]').attr("content");
+
+            $( "#dm" ).click(function() {
+                document.getElementById('thumbnil').src=BASE_IMAGE_PATH;
+                $("#ft").val("company.png");
+                $("#file").val(null);
+
+            });
+
+        });
+
+        function showMyImage(fileInput) {
+            var files = fileInput.files;
+            for (var i = 0; i < files.length; i++) {
+                var file = files[i];
+                var imageType = /image.*/;
+                if (!file.type.match(imageType)) {
+                    continue;
+                }
+                var img=document.getElementById("thumbnil");
+                img.file = file;
+                var reader = new FileReader();
+                reader.onload = (function(aImg) {
+                    return function(e) {
+                        aImg.src = e.target.result;
+                    };
+                })(img);
+                reader.readAsDataURL(file);
+            }
+        }
+
+    </script>
+
+</head>
+
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+
+        <script type="text/javascript" th:if="${edit != null}">
+            notify({
+                type: "success", //alert | success | error | warning | info
+                title: "Updated",
+                message: '[[${edit}]]',
+                position: {
+                    x: "right", //right | left | center
+                    y: "bottom" //top | bottom | center
+                },
+                icon: '<img id="im"/>', //<i>
+                size: "normal", //normal | full | small
+                overlay: true, //true | false
+                closeBtn: true, //true | false
+                overflowHide: false, //true | false
+                spacing: 20, //number px
+                theme: "dark-theme", //default | dark-theme
+                autoHide: true, //true | false
+                delay: 1500, //number ms
+                onShow: null, //function
+                onClick: null, //function
+                onHide: null, //function
+                template: '<div class="notify"><div class="notify-text"></div></div>'
+            });
+            var BASE_IMAGE_PATH = $('meta[name=image-path1]').attr("content");
+            document.getElementById('im').src=BASE_IMAGE_PATH;
+        </script>
+        <!-- top navigation -->
+        <div th:replace="headerFragment :: header"></div>
+        <!-- /top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="top-pagination">
+                        <div class="page-title">
+                            <div class="title_left">
+                                <h4>Organization Setting Details</h4>
+                            </div>
+                            <div class="title_right">
+                                <!--<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search for...">
+                                        <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                              </span>
+                                    </div>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <form th:action="@{/organizationSetting/show}" th:object="${organizationSetting}"
+                  method="post" enctype="multipart/form-data">
+                <input id="hrId" type="hidden" th:field="*{id}"/>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+
+                            <input class="effect-16" id="companyName" onchange="nameOnChange();" type="text" readonly
+                                   th:field="*{companyName}">
+                            <label style=" ">Company Name</label>
+                            <span class="focus-border"></span>
+                            <span style="color: red;" th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"/>
+                            <span id="name_error" style="color: red;display: none"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" id="code"  type="text" readonly
+                                   th:field="*{companyAddress}">
+                            <label>Company Address </label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" readonly th:field="*{currencySymbol}">
+                            <label>Currency</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" readonly th:field="*{companyPhone}">
+                            <label>Company Phone</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" id="email" type="text" th:field="*{email}" readonly>
+                            <label>Email </label>
+                            <span class="focus-border"></span>
+                            <span style="color: red;" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"/>
+                            <span id="email_error" style="color: red;display: none"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3 col-xs-12">
+                        <div class="col-3 input-effect">
+
+                            <input class="effect-16" id="nID"  type="text" readonly
+                                   th:field="*{fax}">
+                            <label >Fax</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-1 col-sm-1 col-xs-12">
+                        <div class="control-group">
+                            <label class="control control--checkbox">Cumulative
+                                <input type="checkbox" disabled th:field="*{cumulative}"/>
+                                <div class="control__indicator"></div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="control-group">
+                        <label style="">Product Type Name</label>
+                        <div class="select">
+                            <select id="productType"  th:field="*{language}" disabled>
+                                <option th:each="product : ${languageList}"
+                                        th:value="${product}"
+                                        th:text="${product}">
+                                </option>
+                            </select>
+                            <div class="select__arrow"></div>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" readonly th:field="*{returnPolicy}">
+                            <label>Return Policy</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" id="website" type="text" readonly
+                                   th:field="*{website}">
+                            <label>Website</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16"  type="text" readonly
+                                   th:field="*{tax1}">
+                            <label>Tax 1</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16"  type="text" readonly
+                                   th:field="*{tax1Amount}">
+                            <label>Tax 1 Amount</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <img id="thumbnil" height="110" width="100"  th:src="@{'/images/'+${organizationSetting.image}}" alt="Default Image"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16"  type="text" readonly
+                                   th:field="*{tax2}">
+                            <label>Tax 2</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16"  type="text" readonly
+                                   th:field="*{tax2Amount}">
+                            <label>Tax 2 Amount</label>
+                            <span class="focus-border"></span>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="input-group">
+                            <input id="ft" th:field="*{image}" type="text" class="form-control" readonly>
+                            <label class="input-group-btn">
+                                <span class="btn btn-primary">
+                                    Image&hellip; <input th:value="${organizationSetting.image}" readonly id="file" type="file" name="file" style="display: none;" accept="image/*" onchange="showMyImage(this)">
+                                </span>
+                                <button type="button" id="dm" class="btn btn-danger">Default Photo</button>
+                            </label>
+                        </div>
+                    </div>-->
+
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <a th:href="@{${'/organizationSetting/edit/1'}}" type="button" class="btn btn-primary">Edit Organization Setting</a>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+       <!-- <footer>
+            <div class="pull-right">
+                Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+            </div>
+            <div class="clearfix"></div>
+        </footer>-->
+        <!-- /footer content -->
+    </div>
+</div>
+
+<!-- jQuery -->
+<script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+<!-- Booth:tstra@{/ -->
+<script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+<!-- Fasth:tClic@{/ -->
+<script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+<!-- NPrth:ogres@{/ -->
+<script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+<script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+<script th:src="@{/vendors/raphael/raphael.min.js}"></script>
+<script th:src="@{/vendors/morris.js/morris.min.js}"></script>
+
+<!-- Custom Theme Scripts -->
+<script th:src="@{/build/js/custom.js}"></script>
+<script th:src="@{/js/hrEmployee/hrEmployee_form_validation.js}"></script>
+
+<!-- Script here -->
+
+<script>
+    // JavaScript for label effects only
+    $(window).load(function () {
+
+        if ($('#hrId').val() != '') {
+            $(".input-effect input").addClass("has-content")
+        } else {
+            $(".col-3 input").val("");
+        }
+
+        $(".input-effect input").focusout(function () {
+            if ($(this).val() != "") {
+                $(this).addClass("has-content");
+            } else {
+                $(this).removeClass("has-content");
+            }
+        })
+    });
+
+
+    //custom input file
+    $(function () {
+
+        // We can attach the `fileselect` event to all file inputs on the page
+        $(document).on('change', ':file', function () {
+            var input = $(this),
+                numFiles = input.get(0).files ? input.get(0).files.length : 1,
+                label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+            input.trigger('fileselect', [numFiles, label]);
+        });
+
+        // We can watch for our custom `fileselect` event like this
+        $(document).ready(function () {
+            $(':file').on('fileselect', function (event, numFiles, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+                if (input.length) {
+                    input.val(log);
+                } else {
+                    if (log) alert(log);
+                }
+
+            });
+        });
+
+    });
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta id="_csrf" name="_csrf" th:content="${_csrf.token}"/>
+      <meta id="_csrf_header" name="_csrf_header" th:content="${_csrf.headerName}"/>
+      <meta name="context-path" th:content="@{/}"/>
+    <title>Add All look Up</title>
+
+      <!-- jQuery -->
+      <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+    <!-- Bootstrap -->
+    <link th:href="@{/vendors/bootstrap/dist/css/bootstrap.min.css}" rel="stylesheet">
+
+      <!-- JQuery-validation -->
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
+    <!-- Font Awesome -->
+    <link th:href="@{/vendors/font-awesome/css/font-awesome.min.css}" rel="stylesheet">
+    <!-- NProgress -->
+    <link th:href="@{/vendors/nprogress/nprogress.css}" rel="stylesheet">
+
+     <link th:href="@{/vendors/iCheck/skins/flat/green.css}" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link th:href="@{/build/css/custom.css}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/input-style.css}">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+
+      <!--Js File-->
+
+
+  </head>
+
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <div th:replace="headerFragment :: header"></div>
+
+        <!-- top navigation -->
+
+        <!-- page content -->
+        <div class="right_col" role="main">
+         
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="top-pagination">
+                      <div class="page-title">
+                        <div class="title_left">
+                          <h4 th:text="#{allLookUp.title.name}" >Add ALL LookUp</h4>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+
+            <form name="form" id="signupForm"  class="forms-basic" th:action="@{/allLookUp/show}" th:object="${all_look_up}" method="post" >
+                <input id="allllokup_id" type="hidden" th:field="*{id}"/>
+                <div class="row">
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                          <input class="effect-16" type="text" id="name" name="name" placeholder="" th:field="*{allLookUpName}" >
+                          <label style="" >All LookUP Name ID<span style="color: red">*</span></label>
+                          <span  class="focus-border"></span>
+
+                            <span id="name_error" style="color: red;display: none"   ></span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" id="code" placeholder=""  th:field="*{allLookUpCode}"  >
+                            <label style="">All LookUP Code<span style="color: red">*</span></label>
+                            <span class="focus-border"></span>
+                            <span id="code_error" style="color: red;display: none"   ></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                            <input class="effect-16" type="text" placeholder="" id="module"  th:field="*{allLookUpModule}" >
+                            <label style="">All LookUP Module<span style="color: red">*</span></label>
+                            <span class="focus-border"></span>
+                            <span id="module_error" style="color: red;display: none"   ></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="col-3 input-effect">
+                          <input class="effect-16" type="text" placeholder="" th:field="*{allLookUpDescription}"  >
+                          <label>All LookUP Description</label>
+                          <span class="focus-border"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                   <div class="col-md-4 col-sm-4 col-xs-12">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+
+              </form>
+
+           
+
+         
+        </div>
+        <!-- /page content -->
+
+        <!-- footer content -->
+        <footer>
+          <div class="pull-right">
+
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
+      </div>
+    </div>
+
+    <!-- jQuery -->
+    <script th:src="@{/vendors/jquery/dist/jquery.min.js}"></script>
+    <!-- Booth:tstra@{/ -->
+    <script th:src="@{/vendors/bootstrap/dist/js/bootstrap.min.js}"></script>
+    <!-- JQuery-validation -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.js"></script>
+    <!-- Fasth:tClic@{/ -->
+   <!-- <script th:src="@{/vendors/fastclick/lib/fastclick.js}"></script>
+    &lt;!&ndash; NPrth:ogres@{/ &ndash;&gt;
+    <script th:src="@{/vendors/nprogress/nprogress.js}"></script>
+                <script th:src="@{/vendors/Chart.js/dist/Chart.min.js}"></script>
+    <script th:src="@{/vendors/raphael/raphael.min.js}"></script>
+    <script th:src="@{/vendors/morris.js/morris.min.js}"></script>
+    
+    &lt;!&ndash; Custom Theme Scripts &ndash;&gt;
+    <script th:src="@{/build/js/custom.js}"></script>-->
+    <!--<script th:src="@{/js/Alllookup/all_look_up_form_validation.js}"></script>-->
+
+
+    <script type="text/javascript">
+        $( document ).ready( function () {
+            var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            var _ctx = $("meta[name='context-path']").attr("content");
+
+            $( "#signupForm" ).validate( {
+                rules: {
+                    allLookUpName: {
+                        required: true,
+                        minlength: 2
+                    }
+
+                    /*vehicleIdNumber: {
+                        required: true,
+                        remote : {
+                            type : 'POST',
+                            cache: false,
+                            url : _ctx+'CarMaster/vehicleIdValid',
+                            data : {
+                                "vehicleIdNumber" : function() { return $("#vehicleIdNumber").val(); },
+                                "pid": $("#id").val()
+                            },
+                            beforeSend: function (xhr) {
+                                xhr.setRequestHeader(header, token);
+                            }
+                        }
+                    }*/
+                },
+                messages: {
+                    allLookUpName: {
+                        required: "Please enter a username",
+                        minlength: "Your Car name must consist of at least 2 characters"
+                    }
+                },
+                errorElement: "em",
+                errorPlacement: function ( error, element ) {
+                    // Add the `help-block` class to the error element
+                    error.addClass( "help-block" );
+                    if ( element.prop( "type" ) === "checkbox" ) {
+                        error.insertAfter( element.parent( "label" ) );
+                    } else {
+                        error.insertAfter( element );
+                    }
+                },
+
+                highlight: function ( element, errorClass, validClass ) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-error" ).removeClass( "has-success" );
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $( element ).parents( ".col-sm-5" ).addClass( "has-success" ).removeClass( "has-error" );
+                }
+            } );
+
+        } );
+    </script>
+
+
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+    <script>
+        function initialize() {
+            const eventSource = new EventSource("/sseTest");
+
+            eventSource.onmessage = e => {
+                const msg = JSON.parse(e.data);
+                document.getElementById("sseDiv").innerHTML = msg.no+" - ";
+            };
+
+            eventSource.onopen = e => console.log('open');
+
+            eventSource.onerror = e => {
+                console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+                if (e.readyState == EventSource.CLOSED) {
+                    console.log('close');
+                }
+                else {
+                    console.log(e);
+                }
+            };
+        }
+
+        window.onload = initialize;
+
+
+        function myFunction() {
+            location.reload();
+        }
+    </script>
+
+</head>
+<body>
+<h3 th:text="#{myblog.title}"> Blog Title </h3>
+
+<a href="?lang=bn">Bangla</a>
+<a href="?lang=en">ENGLISH</a><br/>
+<a href="?lang=hi">Hindi</a><br/>
+<a href="?lang=ur">Urdu</a><br/>
+
+
+<button onclick="myFunction()">Reload page</button>
+<h1>Sse client</h1>
+
+<div id="sseDiv"></div>
+
+<!--<script>
+    var source = new EventSource("/sseTest");
+    source.onmessage = function(event) {
+        var msg = JSON.parse(event.data);
+        document.getElementById("sseDiv").innerHTML += msg.email+" - ";
+
+    }
+</script>-->
+
+
+
+</body>
+</html>

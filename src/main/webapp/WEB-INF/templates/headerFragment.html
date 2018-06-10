@@ -1,0 +1,305 @@
+<!DOCTYPE html >
+<html   xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
+<head>
+
+</head>
+
+
+<body class="nav-md" >
+
+<div class="container body" th:fragment="header">
+
+    <script th:src="@{/webjars/jquery/3.1.0/jquery.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/webjars/jquery-ui-themes/1.11.4/excite-bike/jquery-ui.css}">
+    <script th:src="@{/webjars/jquery-ui/1.11.4/jquery-ui.min.js}"></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+
+
+    <script type="text/javascript">
+        var _ctx = $("meta[name='context-path']").attr("content");
+
+            const eventSource = new EventSource(_ctx+"sseTest");
+
+            eventSource.onmessage = e => {
+                console.log(":::::::::::::::::");
+                (function ($) {
+                    var token = $("meta[name='_csrf']").attr("content");
+                    var header = $("meta[name='_csrf_header']").attr("content");
+                    var seenUrl = _ctx + 'proclamation/seen/';
+                    var img = _ctx + 'images/notification/alarm.png';
+                    var show_all = _ctx + 'proclamation/allProclamation';
+
+                    $('#menu1').empty();
+
+                    $.ajax({
+                        type: 'GET',
+                        url: _ctx+ 'proclamation/getHeaderData',
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader(header, token);
+                        },
+                        success: function (data) {
+
+                            $.each(data.proclamations, function (i, item) {
+                                var listItem = '<li>' +
+                                    '<a href="'+seenUrl+item.id+'">' +
+                                    '<span class="image"><img alt="Image" src="'+img+'"/></span>' +
+                                    '<sapn><span>'+item.name+'</span></sapn>' +
+                                    '<span class="message">'+item.description+'</span>' +
+                                    '</a></li>';
+                                $('#menu1').append(listItem);
+                            });
+
+
+                            if (data.size == 0) {
+                                $( "#badge" ).hide();
+                            }else {
+                                document.getElementById("badge").innerHTML = data.size;
+                            }
+
+                            if (data.size > 5) {
+                                var ale = '<li><div class="text-center"><a href="'+show_all+'"><strong>See All Alerts</strong><i class="fa fa-angle-right"></i></a></div></li>';
+                                $('#menu1').append(ale);
+                            }
+
+                        },
+                        error: function () {
+                            console.log("error");
+                        }
+                    });
+
+                })(jQuery);
+            };
+
+            eventSource.onopen = e => console.log('open');
+
+            eventSource.onerror = e => {
+                //console.log("]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+
+                if (e.readyState == EventSource.CLOSED) {
+                    console.log('close');
+                }
+                else {
+                    console.log(e);
+                }
+
+            };
+
+
+    </script>
+
+<div class="main_container" >
+    <div class="col-md-3 left_col">
+        <div class="left_col scroll-view">
+            <div  class="navbar nav_title" style="border: 0;">
+                <a th:href="@{/}" class="site_title"><span>Pos Manager</span></a>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <!-- menu profile quick info -->
+
+            <!-- /menu profile quick info -->
+
+            <!--<br/>-->
+
+            <!-- sidebar menu -->
+            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                <div class="menu_section">
+
+                    <ul class="nav side-menu" id="navSide">
+                        <li><a th:href="@{/}"><i class="fa fa-home"></i> Home </a></li>
+                        <li><a th:href="@{/admin}"><i class="fa fa-edit"></i>Dashboard</a></li>
+
+                        <script type="application/javascript">
+                            (function ($) {
+                                var token = $("meta[name='_csrf']").attr("content");
+                                var header = $("meta[name='_csrf_header']").attr("content");
+                                var _ctx = $("meta[name='context-path']").attr("content");
+
+                                $.ajax({
+                                    type: 'GET',
+                                    url: _ctx+ 'shortcut/getShortcutData',
+                                    beforeSend: function (xhr) {
+                                        xhr.setRequestHeader(header, token);
+                                    },
+                                    success: function (data) {
+                                        if (data.length <=6) {
+                                            $.each(data, function (i, item) {
+                                                /*  var ele = "<li id='"+item.id+"'>" +
+                                                 "<a href='"+item.path+"'>" +
+                                                 "<svg class='icon'>" +
+                                                 "<use href='"+item.icon+"'></use>" +
+                                                 "</svg>" +item.linkName
+                                                 "</a> " +
+                                                 "</li>";*/
+                                                var ele="<li id='"+item.id+"'><a href='"+_ctx+item.path+"'><i class='fa fa-angle-double-right'></i>"+item.linkName+"</a></li>";
+                                                $('#navSide').append(ele);
+                                            });
+                                        }else {
+                                            $.each(data, function (i, item) {
+                                                var ele="<li id='"+item.id+"'><a href='"+_ctx+item.path+"'><i class='fa fa-angle-double-right'></i>"+item.linkName+"</a></li>";
+                                                if (i < 6) {
+                                                    $('#navSide').append(ele);
+                                                }
+                                            });
+                                            $('#navSide').append("<li><a href='"+_ctx+"shortcut/shortcutList'><i class='fa fa-th'></i>All Shortcut</a></li>");
+                                        }
+
+                                    },
+                                    error: function () {
+                                        console.log("error");
+                                    }
+                                });
+
+                            })(jQuery);
+
+                        </script>
+
+                       <!-- <li><a href="#">
+                            <svg class="icon">
+                                <use xlink:href="#travel-type"></use>
+                            </svg>Secondary Sale Config
+                            </a>
+                        </li>-->
+
+
+                        <!--<li><a><i class="fa fa-table"></i> Tables </a></li>
+                        <li><a><i class="fa fa-bar-chart-o"></i> Data Presentation </a></li>
+                        <li><a><i class="fa fa-clone"></i>Layouts </a></li>
+                        <li><a><i class="fa fa-bug"></i> Additional Pages</a></li>
+                        <li><a><i class="fa fa-windows"></i> Extras </a></li>
+                        <li><a><i class="fa fa-sitemap"></i> Multilevel Menu </a></li>-->
+                    </ul>
+                </div>
+
+
+            </div>
+            <!-- /sidebar menu -->
+
+            <!-- /menu footer buttons -->
+        </div>
+    </div>
+    <div class="top_nav">
+        <div class="nav_menu">
+            <nav>
+                <div class="nav toggle">
+                    <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                </div>
+                <ul class="fmcg-left-menu">
+
+                    <li><a th:href="@{/}">Home</a></li>
+                    <li><a th:href="@{/PosUser}">Pos User</a></li>
+                    <!--<li ><a th:href="@{/inventory}">Inventory</a></li>-->
+                    <!--<li  sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_FINANCE')"><a th:href="@{/accounts}">Accounts</a></li>-->
+                    <!--<li  sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_FINANCE')"><a th:href="@{/reporting}">Reporting</a></li>-->
+                    <li  sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_FINANCE')"><a th:href="@{/hrEmployee}">HR Employee</a></li>
+                    <li><a th:href="@{/setting}">Setting</a></li>
+
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    <li>
+
+                    <form th:action="@{/logout}" method="post" id="target">
+                        <a href="" >
+                        <button type="submit" id="button_id">
+                            <i class="fa fa-power-off" aria-hidden="true"></i>
+                        </button>
+                        </a>
+                    </form>
+                    </li>
+
+
+                    <li role="presentation" class="dropdown">
+                        <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+                            <i class="fa fa-envelope-o"></i>
+                            <span class="badge bg-green" id="badge"></span>
+                        </a>
+                        <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+
+
+                            <script type="application/javascript">
+
+                                (function ($) {
+                                    var token = $("meta[name='_csrf']").attr("content");
+                                    var header = $("meta[name='_csrf_header']").attr("content");
+                                    var _ctx = $("meta[name='context-path']").attr("content");
+                                    var img = _ctx + 'images/notification/alarm.png';
+                                    var show_all = _ctx + 'proclamation/allProclamation';
+                                    var seenUrl = _ctx + 'proclamation/seen/';
+
+                                    $.ajax({
+                                        type: 'GET',
+                                        url: _ctx+ 'proclamation/getHeaderData',
+                                        beforeSend: function (xhr) {
+                                            xhr.setRequestHeader(header, token);
+                                        },
+                                        success: function (data) {
+
+                                            $.each(data.proclamations, function (i, item) {
+                                                var listItem = '<li>' +
+                                                    '<a href="'+seenUrl+item.id+'">' +
+                                                    '<span class="image"><img alt="Image" src="'+img+'"/></span>' +
+                                                    '<sapn><span>'+item.name+'</span></sapn>' +
+                                                    '<span class="message">'+item.description+'</span>' +
+                                                    '</a></li>';
+                                                $('#menu1').append(listItem);
+                                            });
+
+
+                                            if (data.size == 0) {
+                                                $( "#badge" ).hide();
+                                            }else {
+                                                document.getElementById("badge").innerHTML = data.size;
+                                            }
+
+                                            if (data.size > 5) {
+                                                var ale = '<li><div class="text-center"><a href="'+show_all+'"><strong>See All Alerts</strong><i class="fa fa-angle-right"></i></a></div></li>';
+                                                $('#menu1').append(ale);
+                                            }
+
+                                        },
+                                        error: function () {
+                                            console.log("error");
+                                        }
+                                    });
+
+                                })(jQuery);
+
+                            </script>
+
+
+
+                        </ul>
+                    </li>
+
+                    <li class="">
+                        <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                            [[${#httpServletRequest.remoteUser}]]
+                            <span class=" fa fa-angle-down"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-usermenu pull-right">
+                            <li> <a th:href="@{${'/user/details'}}"> Profile</a></li>
+                            <li sec:authorize="!hasRole('ROLE_DEALER')"> <a th:href="@{${'/organizationSetting/details'}}"> Settings</a></li>
+                            <li> <a th:href="@{/shortcut/shortcutList}">Shortcut</a></li>
+                            <!--<li>
+                                <a href="javascript:;">
+                                    <span class="badge bg-red pull-right">50%</span>
+                                    <span>Settings</span>
+                                </a>
+                            </li>-->
+                            <li><a href="http://www.dream71.com/">Help</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>
