@@ -57,7 +57,7 @@ public class AttendenceRController {
         try {
             //User Id Set
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String currentPrincipalName = authentication.getName();
+           // String currentPrincipalName = authentication.getName();
 
 
             MyUser myUser = myUserService.findByEmail(principal.getName());
